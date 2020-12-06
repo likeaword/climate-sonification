@@ -79,7 +79,7 @@ temp_change <- difference_left_join(temp_change, note_ref,  max_dist=(each_step_
 
 ## Make the chart ----
 
-ggplot(data = temp_change, aes(x = Year, y = lowess_temp)) + 
+ggplot(data = temp_change, aes(x = Year, y = y_value.x)) + 
   geom_line()
 
 ## Make the audio ----
