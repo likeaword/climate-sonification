@@ -1,0 +1,11 @@
+Track,Time,Event,Channel,Note,Velocity,Order
+0,0, Header,1,2,480,
+1,0, Start_track,,,,
+1,0, Title_t," ""Sonification""",,,
+1,0, Text_t," ""Sample for exploration""",,,
+1,0, Copyright_t," ""This file is in the public domain""",,,
+1,0, Time_signature,4,2,24,8
+1,0, Tempo,500000,,,
+1,0, End_track,,,,
+2,0, Start_track,,,,
+2,0, Instrument_name_t," ""Piano""",,,

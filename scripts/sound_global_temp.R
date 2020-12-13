@@ -90,6 +90,78 @@ global_temp_change_wave <-
 # save the tune wav file
 save.wave(global_temp_change_wave,paste0("tempoutput/temp_change_240bpm_C_scale_2_octaves.wav"))
 
+## Make the MIDI CSV ----
+
+# how many data values
+no_y_values <- length(temp_change$y_value.x)
+
+# create empty dataframes with the correct rows and columns
+midi_note_on <- data.frame(matrix(NA, nrow=no_y_values, ncol=7))
+midi_note_on <- midi_note_on %>%
+  rename(Track = 'X1') %>%
+  rename(Time = 'X2') %>%
+  rename(Event = 'X3') %>%
+  rename(Channel = 'X4') %>%
+  rename(Note = 'X5') %>%
+  rename(Velocity = 'X6') %>%
+  rename(Order = 'X7')
+
+midi_note_on$Time <- as.double(midi_note_on$Time)
+
+
+midi_note_off <- data.frame(matrix(NA, nrow=no_y_values, ncol=7))
+midi_note_off <- midi_note_off %>%
+  rename(Track = 'X1') %>%
+  rename(Time = 'X2') %>%
+  rename(Event = 'X3') %>%
+  rename(Channel = 'X4') %>%
+  rename(Note = 'X5') %>%
+  rename(Velocity = 'X6') %>%
+  rename(Order = 'X7')
+
+
+# in this version each note lasts the same length of time
+note_on_time <- 0
+note_off_time <- 120
+midi_note_on$Event <- " Note_on_c"
+midi_note_off$Event <- " Note_off_c"
+
+for(i in seq(from=1, to=no_y_values, by=1)){
+
+  note <- temp_change$Midi_tuning[i]
+  #set the notes on
+
+  midi_note_on$Track[i] <- 2
+  midi_note_on$Channel[i] <- 1
+  midi_note_on$Time[i] <- note_on_time
+  midi_note_on$Note[i] <- note
+  midi_note_on$Velocity[i] <- 81
+  midi_note_on$Order[i] <- i
+  
+  
+  #set the notes off
+
+  midi_note_off$Track[i] <- 2
+  midi_note_off$Channel[i] <- 1
+  midi_note_off$Time[i] <- note_off_time
+  midi_note_off$Note[i] <- note
+  midi_note_off$Velocity[i] <- 0
+  midi_note_off$Order[i] <- i
+  print(note_on_time)
+  print(note_off_time)
+  
+  note_on_time <- note_on_time + 120
+  note_off_time <- note_off_time + 120
+
+}
+
+
+midi_note_on_off <- rbind(midi_note_on,midi_note_off)
+midi_note_on_off <- midi_note_on_off %>%
+  arrange(Order,desc(Event))
+
+#Save the csv
+write_excel_csv(midi_note_on_off,file.path("tempoutput/note_on_off.csv"),col_names = FALSE)
 #Jamie did some cleve stuff with text to speech but I haven't got into that
 
 
