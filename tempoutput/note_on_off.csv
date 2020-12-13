@@ -7,6 +7,7 @@
 1,0,Tempo,500000,NA,NA,NA
 1,0,End_track,NA,NA,NA,NA
 2,0,Start_track,NA,NA,NA,NA
+2,0,Instrument_name_t,"""Piano""",NA,NA,NA
 2,0, Note_on_c,1,53,81,NA
 2,120, Note_off_c,1,53,0,NA
 2,120, Note_on_c,1,53,81,NA
